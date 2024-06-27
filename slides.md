@@ -1124,11 +1124,11 @@ console.log(resultAltSchool);
 
 <v-clicks>
 
-<li onclick="$nav.go()"><span>keyof</span></li>
-<li onclick="$nav.go()"><span>typeof</span></li>
-<li onclick="$nav.go()"><span>indexed access types</span></li>
-<li onclick="$nav.go()"><span>conditional types</span></li>
-<li onclick="$nav.go()"><span>mapped types</span></li>
-<li onclick="$nav.go()"><span>template-literal-types</span></li>
+<li><span>keyof</span></li>
+<li><span>typeof</span></li>
+<li><span>indexed access types</span></li>
+<li><span>conditional types</span></li>
+<li><span>mapped types</span></li>
+<li><span>template-literal-types</span></li>
 
 </v-clicks>
