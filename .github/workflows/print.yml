@@ -32,7 +32,7 @@ jobs:
 
       - name: Export
         run: |
-          npm exec slidev export -- --per-slide --format pdf --output ./_export/typescript_classnotes.pdf --timeout 600000
+          npm exec slidev export -- --timeout 600000 --per-slide --format pdf --output ./_export/typescript_classnotes.pdf --timeout 600000
           npm exec slidev export -- --per-slide --with-clicks false --format pptx --output ./_export/typescript_classnotes.pptx --timeout 600000
 
       - name: Generate Body
