@@ -44,11 +44,9 @@ AltSchool Africa
 <!--
 The last comment block of each slide will be treated as slide notes. It will be visible and editable in Presenter Mode along with the slide. [Read more in the docs](https://sli.dev/guide/syntax.html#notes)
 -->
-
 ---
 class: grid place-content-center
 hideInToc: true
-
 ---
 
 # What is TypeScript?
@@ -99,7 +97,6 @@ layoutClass: gap-16
 transition: slide-up
 class: grid place-content-center
 hideInToc: true
-
 ---
 
 # Table of Content
@@ -155,7 +152,6 @@ tsc --init
 
 
 ```
-
 ---
 hideInToc: true
 ---
@@ -163,6 +159,7 @@ hideInToc: true
 # tsconfig.json
 
 <v-clicks>
+
 
 - The tsconfig.json file is a configuration file that tells the TypeScript compiler how to compile your TypeScript code.
 
@@ -199,7 +196,6 @@ hideInToc: true
 ---
 
 # Everyday Types
-
 The primitives, any, Type annotations on variables, Functions, Object types, Union Types, Type Aliases, Interfaces, Type Assertions, Literal Types, null and undefined, Enums
 
 ````md magic-move
@@ -292,7 +288,6 @@ result;
 console.log(result);
 console.log("Hello", "AltSchool");
 ```
-
 ```ts
 let user: "student" | "admin";
 
@@ -346,7 +341,6 @@ let person2: Person = {
   age: 99,
 };
 ```
-
 //
 //
 
@@ -368,7 +362,6 @@ greet2({ name: "ade", age: 99 });
 // type assertion
 let res = JSON.parse('{"name": "ade"}') as { name: string };
 ```
-
 ```ts
 // 'satifies', 'as const', '!'
 ```
@@ -388,7 +381,6 @@ const addTwoNumberObject = (params: { a: number; b: number }): number => {
 };
 
 ```
-
 ```ts
 // extending the inteface(obj only!)
 interface ThreeParams extends Params {
@@ -415,7 +407,6 @@ const addTwoNumberObject2 = (params: { a: number; b?: number }): number => {
 
 console.log(addTwoNumberObject2({ a: 99 }));
 ```
-
 ```ts
 const addTwoNumberObject3 = (params: { a?: number; b?: number }): number => {
   if (params.a) {
@@ -444,7 +435,6 @@ type Admin = {
 };
 ```
 ````
-
 ---
 hideInToc: true
 ---
@@ -488,7 +478,6 @@ function getPersonPost(person: AdminWithPosts): Array<Post> {
   return person.posts;
 }
 ```
-
 ```ts
 let res = getPersonPost({
   posts: [
@@ -551,7 +540,6 @@ let newGitHubModified: newGitHubModified = {
   id: 99,
 };
 ```
-
 ```ts
 async function fetchGitHubUser(username: string) {
   return fetch(`https://api.github.com/users/${username}`).then((res) =>
@@ -580,7 +568,6 @@ mapOfStudentToScores.set("ade", 99);
 console.log(mapOfStudentToScores);
 mapOfStudentToScores;
 ```
-
 ```ts
 // tuples
 let tuple: [string, number] = ["ade", 99];
@@ -592,7 +579,6 @@ color = [255, 0, 0, 0.1];
 
 let colorString = `rgb(${color.join(", ")})`;
 ```
-
 ```ts
 // unions |
 let str: number | string;
@@ -663,7 +649,6 @@ function merge<T, U>(firstObject: T, secondObject: U): T & U {
 let res35 = merge({ name: "ade" }, { age: 99 });
 let res37 = merge({ school: "AltSchool" }, { job: "cleaner" });
 ```
-
 ```ts
 // enums - user (ADMIN, CLIENT, SUPERADMIN)
 enum Role {
@@ -704,7 +689,6 @@ let userAltSchool: User = {
 let resultAltSchool = checkUserRole(userAltSchool);
 console.log(resultAltSchool);
 ```
-
 ```ts
 // Type manipulation - keyof, typeof, in, infer, extends, in, as, is, &
 
@@ -716,7 +700,6 @@ let sampleArray: { [n: number]: string } = ["ade", "bisi", "sola"];
 
 let keyOfUser: KeyOfUserType = "name";
 ```
-
 ```ts
 // typeof
 let myName = "ade";
@@ -733,7 +716,6 @@ function f() {
 // infer
 type P = ReturnType<typeof f>;
 ```
-
 ```ts
 // indexed access types
 type Person3 = { name: string; age: number; address: string };
@@ -744,7 +726,6 @@ type Age = Person3["address" | "age"];
 type Exclude<T, U> = T extends U ? never : T;
 // type T = Exclude<"a" | "b" | "c", "a" | "c">; // "b"
 ```
-
 ```ts
 // mapped types
 type Person4 = {
@@ -757,4 +738,397 @@ type Greeting = `hello ${World}`;
 ```
 ````
 
+
 ---
+
+```ts twoslash
+let person: string | number = "helloTtypescript";
+
+let result: number[] = person.split("T");
+//  //^?
+
+console.log(result);
+console.log("Hello", "AltSchool");
+```
+
+
+---
+
+# functions
+````md magic-move
+```ts
+function greeter(fn: (a: string) => void) {
+  fn("Hello, World");
+}
+
+function printToConsole(s: string) {
+  console.log(s);
+}
+
+greeter(printToConsole);
+```
+
+```ts
+type GreetFunction = (a: string) => void;
+
+function greeter(fn: GreetFunction) {
+  fn("Hello, World");
+}
+
+function printToConsole(s: string) {
+  console.log(s);
+}
+
+greeter(printToConsole);
+```
+
+```ts
+type DescribableFunction = {
+  description: string;
+  (someArg: number): boolean;
+};
+
+function doSomething(fn: DescribableFunction) {
+  console.log(fn.description + " returned " + fn(6));
+};
+
+function myFunc(someArg: number) {
+  return someArg > 3;
+}
+myFunc.description = "default description";
+
+doSomething(myFunc);
+```
+
+```ts
+// call signatures and constructors
+type DescribableFunction = {
+  description: string;
+  (someArg: number): boolean;
+};
+
+type SomeConstructor = {
+  new (s: string): SomeObject;
+};
+function fn(ctor: SomeConstructor) {
+  return new ctor("hello");
+}
+```
+````
+
+---
+
+```ts {monaco-run} {autorun: true}
+type DescribableFunction = {
+  description: string;
+  (someArg: number): boolean;
+};
+function doSomething(fn: DescribableFunction) {
+  console.log(fn.description + " returned " + fn(6));
+}
+
+function myFunc(someArg: number) {
+  return someArg > 3;
+}
+myFunc.description = "default description";
+
+doSomething(myFunc);
+```
+
+---
+
+# Peek into Generics
+
+<!-- This allow you to embed external code blocks -->
+<<< @/snippets/external.ts#snippet
+
+<br />
+
+# Put `emptyArray` function to work
+
+
+<v-click>
+
+```ts {monaco-run} {autorun: true}
+import { emptyArray } from './external'
+
+console.log(emptyArray<number>(10).reduce(fib => [...fib, fib.at(-1)! + fib.at(-2)!], [1, 1]))
+```
+
+</v-click>
+
+<v-click>
+
+```ts twoslash
+function firstElement<Type>(arr: Type[]): Type | undefined {
+  return arr[0];
+}
+// Note that we didn’t have to specify Type in this sample.
+// The type was inferred - chosen automatically - by TypeScript.
+let s1 = firstElement([1, 2, 4, 5])
+let s2 = firstElement(['hello', 'dance'])
+```
+
+</v-click>
+
+---
+hideInToc: true
+---
+## Solve this using TS Generics
+
+```ts {monaco-run} {autorun: true}
+function getRandomNumberElement(items: number[]): number {
+  let randomIndex = Math.floor(Math.random() * items.length);
+  return items[randomIndex];
+}
+
+let randyValue = getRandomNumberElement(['ayo', 'ade', 'ojo', 'jerry'])
+
+console.log(randyValue)
+```
+---
+hideInToc: true
+
+---
+```ts {monaco}
+function map<Input, Output>(arr: Input[], func: (arg: Input) => Output): Output[] {
+  return arr.map(func);
+}
+
+// Parameter 'n' is of type 'string'
+// 'parsed' is of type 'number[]'
+const parsed = map(["1", "2", "3"], (n) => parseInt(n));
+```
+
+<v-click>
+
+```ts twoslash
+function longest<Type extends { length: number }>(a: Type, b: Type) {
+  if (a.length >= b.length) {
+    return a;
+  } else {
+    return b;
+  }
+}
+
+// longerArray is of type 'number[]'
+const longerArray = longest([1, 2], [1, 2, 3]);
+// longerString is of type 'alice' | 'bob'
+const longerString = longest("alice", "bob");
+// Error! Numbers don't have a 'length' property
+const notOK = longest(10, 100);
+```
+
+</v-click>
+---
+hideInToc: true
+---
+
+```ts {monaco-run}
+function minimumLength<Type extends { length: number }>(
+  obj: Type,
+  minimum: number
+): Type {
+  if (obj.length >= minimum) {
+    return obj;
+  } else {
+    return { length: minimum };
+  }
+}
+
+// 'arr' gets value { length: 6 }
+const arr = minimumLength([1, 2, 3], 6);
+// and crashes here because arrays have
+// a 'slice' method, but not the returned object!
+console.log(arr.slice(0));
+```
+
+---
+hideInToc: true
+---
+
+```ts {monaco-run} {autorun: true}
+function combine<Type>(arr1: Type[], arr2: Type[]): Type[] {
+  return arr1.concat(arr2);
+}
+
+// const arr = combine([1, 2, 3], ["hello"]);
+const arr = combine<string | number>([1, 2, 3], ["hello"]);
+
+console.log(arr)
+
+```
+---
+hideInToc: true
+---
+
+```ts {monaco-run} {autorun: true}
+function merge<T, U>(firstObject: T, secondObject: U): T & U {
+  return {
+    ...firstObject,
+    ...secondObject,
+  };
+}
+
+type Result<T extends Function> = T extends (...args: never[]) => infer R
+  ? R
+  : never;
+
+let res35 = merge({ name: "ade" }, { age: 99 });
+console.log(res35)
+let res37 = merge({ school: "AltSchool" }, { job: "cleaner" });
+console.log(res37)
+
+```
+---
+hideInToc: true
+---
+
+```ts {monaco-run} {autorun: true}
+type FuncWithOneObjectArgument<P extends { [x: string]: any }, R> = (
+  props: P
+) => R;
+
+type DestructuredArgsOfFunction<
+  F extends FuncWithOneObjectArgument<any, any>
+> = F extends FuncWithOneObjectArgument<infer P, any> ? P : never;
+
+const myFunction = (props: { x: number; y: number }): string => {
+  return "OK";
+};
+
+const props: DestructuredArgsOfFunction<typeof myFunction> = {
+  x: 1,
+  y: 2
+};
+
+
+```
+
+---
+hideInToc: true
+---
+
+# Guideline to writing good generics
+
+<v-click>
+
+- Push Type Parameters Down
+
+</v-click>
+<v-click>
+
+- Use Fewer Type Parameters
+
+```ts twoslash
+function filter1<Type>(arr: Type[], func: (arg: Type) => boolean): Type[] {
+  return arr.filter(func);
+}
+
+function filter2<Type, Func extends (arg: Type) => boolean>(
+  arr: Type[],
+  func: Func
+): Type[] {
+  return arr.filter(func);
+}
+
+const val = filter1([1, 2, 3, 4], n => n % 2 === 0)
+const val2 = filter2([1, 2, 3, 4], n => n % 2 === 0)
+
+```
+
+</v-click>
+<v-click>
+
+- Type Parameters(Or any annotation used) Should Appear Twice
+
+</v-click>
+
+---
+
+# function overloading
+
+```ts twoslash
+
+function add3(a: number, b: number): number;
+function add3(a: string, b: string): string;
+function add3(a: any, b: any): any {
+  return a + b;
+}
+
+add3("na", "me");
+add3(99, 78);
+let name2: any = "wale";
+let age2: any = 99;
+add3(name2, age2);
+```
+---
+
+# Enums
+
+```ts {monaco}
+enum Role {
+  ADMIN,
+  CLIENT,
+  SUPERADMIN,
+}
+
+type User = {
+  id: string;
+  // enum
+  role: Role;
+  // union types
+  // role: "CLIENT" | "ADMIN" | "SUPERADMIN";
+  name: string;
+  address: string;
+};
+```
+
+---
+hideInToc: true
+---
+
+
+```ts {monaco-run}
+enum Role { ADMIN, CLIENT, SUPERADMIN, };
+type User = { id: string; role: Role; name: string; address: string; };
+// union types // role: "CLIENT" | "ADMIN" | "SUPERADMIN";
+
+function checkUserRole(user: User): string {
+  const { role } = user;
+  if (role === Role.ADMIN) {
+    return "admin";
+  } else if (role === Role.CLIENT) {
+    return "client";
+  }
+  // Role.SUPERADMIN;
+  return "superadmin";
+}
+
+let userAltSchool: User = {
+  id: "001",
+  role: Role.ADMIN,
+  name: "ade ojo",
+  address: "lagos",
+};
+
+let resultAltSchool = checkUserRole(userAltSchool);
+console.log(resultAltSchool);
+```
+
+
+
+---
+
+# Type Manipulation
+
+<v-clicks>
+
+<li onclick="$nav.go()"><span>keyof</span></li>
+<li onclick="$nav.go()"><span>typeof</span></li>
+<li onclick="$nav.go()"><span>indexed access types</span></li>
+<li onclick="$nav.go()"><span>conditional types</span></li>
+<li onclick="$nav.go()"><span>mapped types</span></li>
+<li onclick="$nav.go()"><span>template-literal-types</span></li>
+
+</v-clicks>
